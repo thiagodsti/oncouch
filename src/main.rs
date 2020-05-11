@@ -13,20 +13,21 @@ fn main() {
 
     let movie_files = find_movies(path).unwrap();
 
-    let _similars = find_similarities(movie_files, subtitle_files);
+    let mut _similars = find_similarities(movie_files, subtitle_files);
+
+    _similars.sort_by(|a, b| a.chapter.cmp(&b.chapter));
 
 
     let mut table = Table::new();
-    table.add_row(row!["Movie", "New Subtitle", "Old Subtitle"]);
+    table.add_row(row!["Old Subtitle", "New Subtitle"]);
     for similar in _similars.iter() {
-        let _movie = similar.movie.file_name().unwrap().to_str().unwrap();
         let _subtitle = similar.subtitle.file_name().unwrap().to_str().unwrap();
         let mut _new_subtitle = PathBuf::from(similar.subtitle.as_path());
         _new_subtitle.set_file_name(similar.movie.file_name().unwrap());
         _new_subtitle.set_extension(similar.subtitle.extension().unwrap());
 
         let new_subtitle_name = similar.movie.file_name().unwrap().to_str().unwrap().replace(similar.movie.extension().unwrap().to_str().unwrap(), similar.subtitle.extension().unwrap().to_str().unwrap());
-        table.add_row(row![_movie, new_subtitle_name, _subtitle]);
+        table.add_row(row![_subtitle, new_subtitle_name]);
     }
     table.printstd();
 
@@ -45,7 +46,7 @@ fn main() {
             fs::rename(&similar.subtitle, new_subtitle).expect("Error renaming files");
         }
 
-        println!("All subtitles was renamed");
+        println!("All subtitles were renamed");
     }
 
 
