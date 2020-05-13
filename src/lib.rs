@@ -35,11 +35,21 @@ pub fn find_similarities<'a>(movies: Vec<DirEntry>, subtitles: Vec<DirEntry>) ->
     let mut chapter = Option::None;
 
     for subtitle in subtitles.iter() {
-        let subtitle_name = String::from(subtitle.file_name().to_str().unwrap());
-        let subtitle_chapter = find_chapter(subtitle_name.as_str());
+        let subtitle_name = match subtitle.file_name().to_str() {
+            Some(value) => String::from(value),
+            _ => {
+                println!("Couldn't get subtitle name, skipping it.");
+                continue;
+            }
+        };
+        let subtitle_chapter = find_chapter(&subtitle_name);
         for (i_movie, movie) in movies.iter().enumerate() {
             let movie_name = movie.file_name();
-            let movie_name = movie_name.to_str().unwrap();
+            let movie_name = match movie_name.to_str() {
+                Some(value) => value,
+                _ => {continue}
+            };
+
             let movie_chapter = find_chapter(movie_name);
             if subtitle_chapter.is_some() && movie_chapter.is_some() && subtitle_chapter == movie_chapter {
                 most_similar = 1.0;
@@ -47,7 +57,7 @@ pub fn find_similarities<'a>(movies: Vec<DirEntry>, subtitles: Vec<DirEntry>) ->
                 chapter = subtitle_chapter.clone();
                 continue;
             }
-            let similar = strsim::jaro(subtitle.file_name().to_str().unwrap(), movie_name);
+            let similar = strsim::jaro(&subtitle_name, movie_name);
             if similar > most_similar {
                 most_similar = similar;
                 index_similar = i_movie;
@@ -76,5 +86,6 @@ pub fn find_movies(path: &Path) -> io::Result<Vec<DirEntry>> {
     let mut extensions = Vec::new();
     extensions.push("mkv");
     extensions.push("avi");
+    extensions.push("mp4");
     return filemanager::find_files(path, extensions);
 }
