@@ -7,14 +7,10 @@ on:
       - 'v*'
 
 jobs:
-  generate-linux:
-    name: Create release-artifacts
+  generate-release:
+    name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@master
-      - name: Build
-        run: cargo build --release
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -25,18 +21,33 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+      - name: Save upload url
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+  generate-linux:
+    name: Create release-artifacts for Linux
+    needs: generate-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@master
+      - name: Build
+        run: cargo build --release
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{needs.generate-release.outputs.upload_url}}
           asset_path: ./target/release/oncouch
           asset_name: oncouch-linux
           asset_content_type: application/octet-stream
+
   generate-windows:
     name: Create release-artifacts for windows
+    needs: generate-release
     runs-on: windows-latest
     steps:
     - name: Checkout the repository
@@ -52,12 +63,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        upload_url: ${{needs.generate-release.outputs.upload_url}}
         asset_path: ./target/release/oncouch
         asset_name: oncouch-windows
         asset_content_type: application/octet-stream
+
   generate-macos:
     name: Create release-artifacts for MacOS
+    needs: generate-release
     runs-on: macos-latest
     steps:
       - name: Checkout the repository
@@ -73,7 +86,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{needs.generate-release.outputs.upload_url}}
           asset_path: ./target/release/oncouch
           asset_name: oncouch-macos
           asset_content_type: application/octet-stream
