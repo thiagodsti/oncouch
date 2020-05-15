@@ -3,6 +3,9 @@ name = "oncouch"
 version = "0.1.0"
 authors = ["Thiago Diniz da Silveira <thiagods.ti@gmail.com>"]
 edition = "2018"
+license-file = "LICENSE"
+keywords = ["subtitle", "movie", "srt", "mp4", "avi", "mkv"]
+categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
