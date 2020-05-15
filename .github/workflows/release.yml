@@ -60,7 +60,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{needs.generate-release.outputs.upload_url}}
-        asset_path: ./target/release/oncouch
+        asset_path: .\target\release\oncouch
         asset_name: oncouch-windows
         asset_content_type: application/octet-stream
 
