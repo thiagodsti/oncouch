@@ -8,6 +8,9 @@ My purpose is to improve my knowledge to rust, so all kind of feedbacks are welc
 
 The idea in the end is to have more functions added to oncouch, and rename subtitles should be only a small part of it.
 
+## Demo
+
+[![asciicast](https://asciinema.org/a/ylb94NsCqwQQt7APn0fhvbq0T.svg)](https://asciinema.org/a/ylb94NsCqwQQt7APn0fhvbq0T)
 
 ## Installation
 
