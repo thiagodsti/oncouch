@@ -2,7 +2,7 @@ name: Release
 
 on:
   release:
-    - [created]
+    types: [created]
 
 jobs:
   generate:
