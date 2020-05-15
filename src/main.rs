@@ -32,11 +32,10 @@ fn main() {
     table.printstd();
 
     let mut approve = String::new();
-    println!("Are these files ok? (Y/n)");
+    println!("Are these files ok? (y/N)");
     io::stdin().read_line(&mut approve).expect("Error to read the input");
 
-    let yes: String = String::from("y");
-    if approve.to_lowercase().trim() == yes || approve.to_lowercase().eq(&String::from("\n")) || approve.to_lowercase().eq(&String::from("\n\r")) {
+    if approve.to_lowercase().trim() == String::from("y") {
         for similar in _similars.iter() {
             let mut new_subtitle = PathBuf::from(similar.subtitle.as_path());
             let extension = similar.subtitle.extension().unwrap();
