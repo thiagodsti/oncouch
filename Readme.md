@@ -1,5 +1,6 @@
 # OnCouch
 ![Rust](https://github.com/thiagodsti/oncouch/workflows/Rust/badge.svg?branch=master)
+![Release](https://github.com/thiagodsti/oncouch/workflows/Release/badge.svg)
 ![License](https://img.shields.io/github/license/thiagodsti/oncouch)
 
 OnCouch is a project to rename all subtitles files to the similar movie name.
