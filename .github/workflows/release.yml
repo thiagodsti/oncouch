@@ -11,6 +11,9 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -18,7 +21,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: ${{ github.ref }} (${{ steps.date.outputs.date }})
           draft: false
           prerelease: false
     outputs:

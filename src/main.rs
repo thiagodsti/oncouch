@@ -1,5 +1,7 @@
 pub mod filemanager;
-#[macro_use] extern crate prettytable;
+
+#[macro_use]
+extern crate prettytable;
 
 use std::io;
 use std::path::{Path, PathBuf};
