@@ -27,13 +27,18 @@ jobs:
         run: |
           timestamp=$(date +'%s')
           echo "TIMESTAMP=$timestamp" >> $GITHUB_ENV
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          calculatedSha=$(${{ github.sha }} | cut -c1-8)
+          echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.TIMESTAMP }}
+          tag_name: ${{ env.COMMIT_SHORT_SHA }}
           release_name: ${{ env.TIMESTAMP }}
           draft: false
           prerelease: false
