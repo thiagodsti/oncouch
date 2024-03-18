@@ -70,7 +70,7 @@ pub fn find_similarities<'a>(movies: Vec<DirEntry>, subtitles: Vec<DirEntry>) ->
 }
 
 pub fn find_chapter(input: &str) -> Option<String> {
-    let re : Regex = Regex::new(r"(?P<chapter>[s|S]\d+[e|E]\d+)").unwrap();
+    let re = Regex::new(r"(?P<chapter>[s|S]\d+[e|E]\d+)").expect("Error to create regex");
     re.captures(input).and_then(|cap| {
         cap.name("chapter").map(|chapter| chapter.as_str().to_lowercase())
     })
