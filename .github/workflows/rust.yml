@@ -30,7 +30,7 @@ jobs:
       - name: Set short git commit SHA
         id: vars
         run: |
-          calculatedSha=$(${{ github.sha }} | cut -c1-8)
+          calculatedSha=$(echo ${{ github.sha }} | cut -c1-8)
           echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
       - name: Create Release
         id: create_release
