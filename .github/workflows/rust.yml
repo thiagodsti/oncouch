@@ -25,7 +25,7 @@ jobs:
       - name: Get current date
         id: date
         run: |
-          timestamp=date +'%s'
+          timestamp=$(date +'%s')
           echo "TIMESTAMP=$timestamp" >> $GITHUB_ENV
       - name: Set short git commit SHA
         id: vars
