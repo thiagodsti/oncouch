@@ -2,7 +2,7 @@
 name = "oncouch"
 version = "0.2.4"
 authors = ["Thiago Diniz da Silveira <thiagods.ti@gmail.com>"]
-edition = "2018"
+edition = "2021"
 license-file = "LICENSE"
 keywords = ["subtitle", "movie", "srt", "avi", "mkv"]
 categories = ["command-line-utilities"]
