@@ -27,7 +27,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%s')"
       - name: Set outputs
         id: vars
-        run: echo "::set-output sha_short=sha_short::$(git rev-parse --short HEAD)"
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
