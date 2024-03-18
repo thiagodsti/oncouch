@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "::set-output name=date::$(date +'%s')"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -32,7 +32,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: latest
-          release_name: ${{ github.ref }} (${{ steps.date.outputs.date }})
+          release_name: (${{ steps.date.outputs.date }})
           draft: false
           prerelease: false
     outputs:
